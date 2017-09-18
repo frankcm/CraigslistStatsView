@@ -6,14 +6,14 @@ $sql="select max(`date`) maxdate,min(`date`) mindate,ip,browser,referer,avg(time
 $res=query($sql);
 if(mysql_num_rows($res)){
 	$row=getRow("select posturl,title from tracks where token='$get[token]' ");
-	echo "<Center><p><a href='$row[posturl]'>$row[title]</a><br/>Real Time stats<br/></p>";
+	echo "<center><p><a href='$row[posturl]'>".htmlspecialchars($row['title'])."</a><br/>Real Time stats<br/></p></center>";
 	
-	echo "<table border='1' cellspacing=0 cellpadding=5 ><tr><Td>First Visit</td><td>Last Visit</td></td><td>Hits</td><td>Average time<br/>Spent</td><td>UID</td><td>IP</td><td>Browser</td></tr>";
+	echo "<table border='1' cellspacing=0 cellpadding=5 ><tr><Td>First Visit</td><td>Last Visit</td></td><td>Hits</td><td>Average time<br/>Spent</td><td>UID</td><td>IP</td><td>Referer<td>Browser</td></tr>";
 	while($row=mysql_fetch_array($res)){
 		list($maxdate,$mindate,$ip,$browser,$referer,$avgtimeonpage,$numvisits,$cookie)=$row;
 		$mindate=date('g:ia n/d',strtotime($mindate));
 		$maxdate=date('g:ia n/d',strtotime($maxdate));
-		
+		 
 		echo "<tr><td>$mindate</td><Td>$maxdate</td><td>$numvisits</td><td>$avgtimeonpage</td><td>$cookie</td><td>$ip</td><td>$referer</td><td>$browser</td></tr>";
 	}
 	echo "</table>";
